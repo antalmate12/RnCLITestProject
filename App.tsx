@@ -5,142 +5,60 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, {useState} from 'react';
+import {Text, useColorScheme, View} from 'react-native';
+import {BottomNavigation} from 'react-native-paper';
+import Home from './screens/Home';
+import Posts from './screens/Posts';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-import {Button} from 'react-native-paper';
-import {Appbar} from 'react-native-paper';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+const SettingsScreen = () => (
+  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <Text>Settings!</Text>
+  </View>
+);
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  // const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    {
+      key: 'home',
+      title: 'Home',
+      focusedIcon: 'heart',
+      unfocusedIcon: 'heart-outline',
+    },
+    {
+      key: 'posts',
+      title: 'Posts',
+      focusedIcon: 'ab-testing',
+      unfocusedIcon: 'ab-testing',
+    },
+    {
+      key: 'settings',
+      title: 'Settings',
+      focusedIcon: 'bell',
+      unfocusedIcon: 'bell-outline',
+    },
+  ]);
+
+  const renderScene = BottomNavigation.SceneMap({
+    home: Home,
+    posts: Posts,
+    settings: SettingsScreen,
+  });
+
+  // const backgroundStyle = {
+  //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  // };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-
-      <Appbar.Header>
-        <Appbar.Content title="Title" />
-        <Appbar.Action icon={'magnify'} onPress={() => {}} />
-      </Appbar.Header>
-
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Text>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet totam
-            autem doloribus architecto quam explicabo ipsam obcaecati, unde sint
-            natus eveniet nemo. Incidunt delectus sunt id necessitatibus iusto
-            earum itaque!
-          </Text>
-
-          <Button
-            icon="camera"
-            mode="contained"
-            onPress={() => console.log('Pressed')}>
-            Press me
-          </Button>
-
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <BottomNavigation
+      navigationState={{index, routes}}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;

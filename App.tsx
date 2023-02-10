@@ -25,6 +25,9 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import {Button} from 'react-native-paper';
+import {Appbar} from 'react-native-paper';
+
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
@@ -68,10 +71,17 @@ function App(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+
+      <Appbar.Header>
+        <Appbar.Content title="Title" />
+        <Appbar.Action icon={'magnify'} onPress={() => {}} />
+      </Appbar.Header>
+
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
         <Header />
+
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
@@ -82,6 +92,13 @@ function App(): JSX.Element {
             natus eveniet nemo. Incidunt delectus sunt id necessitatibus iusto
             earum itaque!
           </Text>
+
+          <Button
+            icon="camera"
+            mode="contained"
+            onPress={() => console.log('Pressed')}>
+            Press me
+          </Button>
 
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
